@@ -23,6 +23,6 @@ Most crawlers use libraries like BeautifulSoup which can be slow and memory-inte
 ## 📦 Installation & Usage
 
 ```bash
-git clone https://github.com
+git clone https://github.com/777Tu/LinkSpider.git
 cd LinkSpider
 python spider.py
