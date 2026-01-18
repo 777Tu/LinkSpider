@@ -1,4 +1,30 @@
-raw_htmlP = """
+def LinkSearcher(FHtml):
+        custHtml = " ".join(FHtml.split())
+        startZero: int = 0;FDDLinks: list = []
+        
+        while True:
+            FBHttp = custHtml.find("https://", startZero)
+            if FBHttp == -1:
+                break
+            FDTag = custHtml.find(">", FBHttp)
+            FDSpace = custHtml.find(" ", FBHttp)
+            FDDQuote = custHtml.find('"', FBHttp)
+            FDSQuote = custHtml.find("'", FBHttp)
+            FDBSlashe = custHtml.find("\\", FBHttp)
+            FDAnd = custHtml.find("&", FBHttp)
+            
+            FDChar = min([FDIdx for FDIdx in [FDTag,FDSpace, FDDQuote,FDSQuote,FDBSlashe,FDAnd] if FDIdx != -1])
+            if FDChar:
+                FDDUrl = custHtml[FBHttp: FDChar]
+            else:
+                FDDUrl = custHtml[FBHttp:]
+        
+            FDDLinks.append(FDDUrl)
+            startZero = FDChar +1
+        return FDDLinks
+
+if __name__ == "__main__":
+    htmlfile =  """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,33 +65,5 @@ raw_htmlP = """
 </html>
 
 """
-
-
-custHtml = " ".join(raw_htmlP.split())
-startZero = 0 ; links = []
-
-while True:
-    FBHttp = custHtml.find("http", startZero)
-    if FBHttp == -1:
-        break
-    FDTag = custHtml.find(">", FBHttp)
-    FDSpace = custHtml.find(" ", FBHttp)
-    FDDQuote = custHtml.find('"', FBHttp)
-    FDSQuote = custHtml.find("'", FBHttp)
-    FDBSlashe = custHtml.find("\\",FBHttp)
-    FDAnd = custHtml.find("&",FBHttp)
-    
-    
-    FDChar = min([FDIdx for FDIdx in [FDTag, FDSpace, FDDQuote,FDSQuote,FDAnd, FDBSlashe] if FDIdx != -1])
-    if FDChar:
-        FDDUrl = custHtml[FBHttp: FDChar]
-    else:
-        FDDUrl = custHtml[FBHttp:]
-        
-    links.append(FDDUrl)
-    startZero = FDChar +1
-    
-    
-for num, link in enumerate(links, 1):
-    print(f"{' ':>7}{num}: {link}")
-  
+    for links in LinkSearcher(htmlfile):
+        print(links)                
